@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="row" style="display: flex;align-items: center;justify-content: center;margin-top: 150px;">
+
+    <div class="col-lg-6">
+
+        <div class="card">
+            <div class="card-body">
+                <a href="{{ path('add_produit') }}"><i class="ri-arrow-left-circle-fill" style="font-size: 50px;"></i></a>
+                <h1 class="card-title">Liste des produits</h1>
+
+            <a class="btn btn-success" href="{{ path('add_produit') }}">Ajouter</a>
+
+
+
+{{ form_start(f) }}
+
+{{ form_end(f)}}
+</div></div></div>/div>
+{% endblock %}
