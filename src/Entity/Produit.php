@@ -2,14 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\ProduitRepository;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Produit
  *
- * @ORM\Table(name="produit")
+ * @ORM\Table(name="produit", indexes={@ORM\Index(name="id_cat", columns={"id_cat"})})
  * @ORM\Entity
  */
 class Produit
@@ -20,20 +18,8 @@ class Produit
      * @ORM\Column(name="id_pdt", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     */ 
-     // @ORM\ManyToOne(targetEntity="App\Entity\Produit",
-     // mappedBy="Categorie")
-     
-    private $idPdt;
-/**
-     * @Assert\NotBlank(message=" le champ nom doit etre non vide")
-     * @Assert\Length(
-     *      min = 3,
-     *      minMessage=" Entrer un nom au mini de 3 caracteres"
-     *
-     *     )
-     * @ORM\Column(type="string", length=255)
      */
+    private $idPdt;
 
     /**
      * @var string
@@ -41,15 +27,7 @@ class Produit
      * @ORM\Column(name="nom_pdt", type="string", length=30, nullable=false)
      */
     private $nomPdt;
-/**
-     * @Assert\NotBlank(message=" le champ prix doit etre non vide")
-     * @Assert\Length(
-     *      min = 0,
-     *      minMessage=" Entrer un prix >= 0"
-     *
-     *     )
-     */
-    
+
     /**
      * @var float
      *
@@ -58,20 +36,10 @@ class Produit
     private $prix;
 
     /**
-     * @Assert\NotBlank(message="description doit etre non vide")
-     * @Assert\Length(
-     *      min = 3,
-     *      max = 30,
-     *      minMessage = "doit etre >=3 ",
-     *      maxMessage = "doit etre <=30" )
-     */ 
-    /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=30, nullable=false)
+     * @ORM\Column(name="description", type="string", length=255, nullable=false)
      */
-
-     
     private $description;
 
     /**
@@ -84,14 +52,25 @@ class Produit
     /**
      * @var string
      *
-     * @ORM\Column(name="icone", type="string", length=30, nullable=false)
+     * @ORM\Column(name="icone", type="string", length=255, nullable=true)
+     * @Assert\File(mimeTypes={"image/jpeg"})
      */
     private $icone;
 
     /**
-     * @var int
+     * * @var int
      *
-     * @ORM\Column(name="id_cat", type="integer", nullable=false)
+     * @ORM\Column(name="stars", type="integer", nullable=true)
+     */
+    private $stars;
+
+    /**
+     * @var \Categorie
+     *
+     * @ORM\ManyToOne(targetEntity="Categorie")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_cat", referencedColumnName="id_cat")
+     * })
      */
     private $idCat;
 
@@ -147,25 +126,36 @@ class Produit
 
         return $this;
     }
+ public function getStars(): ?int
+    {
+        return $this->stars;
+    }
 
-    public function getIcone(): ?string
+    public function setStars(int $stars): self
+    {
+        $this->stars = $stars;
+
+        return $this;
+    }
+
+    public function getIcone()
     {
         return $this->icone;
     }
 
-    public function setIcone(string $icone): self
+    public function setIcone($icone)
     {
         $this->icone = $icone;
 
         return $this;
     }
 
-    public function getIdCat(): ?int
+    public function getIdCat(): ?Categorie
     {
         return $this->idCat;
     }
 
-    public function setIdCat(int $idCat): self
+    public function setIdCat(?Categorie $idCat): self
     {
         $this->idCat = $idCat;
 

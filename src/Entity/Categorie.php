@@ -19,10 +19,6 @@ class Categorie
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    
-     // @ORM\OneToMany(targetEntity="App\Entity\Categorie",
-     // mappedBy="Produit")
-     
     private $idCat;
 
     /**
@@ -48,6 +44,12 @@ class Categorie
 
         return $this;
     }
+
+   
+
+public function __toString(){
+    return $this->nomCat;
+}
 
 
 }
